@@ -1,0 +1,2 @@
+Supabase Project connected. Publishable key configured in app.js and admin.js.
+Never add an sb_secret key to the website.
