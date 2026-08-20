@@ -1,0 +1,73 @@
+-- PRAVEEN KITKAT DYNAMIC WEBSITE - SUPABASE SETUP
+-- Run this ENTIRE script once in Supabase SQL Editor.
+
+create extension if not exists pgcrypto;
+
+create table if not exists public.bookings (
+  id uuid primary key default gen_random_uuid(),
+  created_at timestamptz not null default now(),
+  name text not null,
+  phone text not null,
+  event text not null,
+  date date,
+  location text not null,
+  guests text,
+  message text,
+  status text not null default 'new'
+);
+
+create table if not exists public.site_content (
+  id uuid primary key default gen_random_uuid(),
+  key text unique not null,
+  value text not null default '',
+  published boolean not null default true,
+  updated_at timestamptz not null default now()
+);
+
+create table if not exists public.gallery (
+  id uuid primary key default gen_random_uuid(),
+  created_at timestamptz not null default now(),
+  title text,
+  url text not null,
+  media_type text not null default 'image',
+  published boolean not null default true,
+  sort_order integer not null default 0
+);
+
+alter table public.bookings enable row level security;
+alter table public.site_content enable row level security;
+alter table public.gallery enable row level security;
+
+drop policy if exists "public can submit bookings" on public.bookings;
+create policy "public can submit bookings" on public.bookings
+for insert to anon, authenticated with check (true);
+
+drop policy if exists "admins can read bookings" on public.bookings;
+create policy "admins can read bookings" on public.bookings
+for select to authenticated using (true);
+
+drop policy if exists "admins can update bookings" on public.bookings;
+create policy "admins can update bookings" on public.bookings
+for update to authenticated using (true) with check (true);
+
+drop policy if exists "public can read published content" on public.site_content;
+create policy "public can read published content" on public.site_content
+for select to anon, authenticated using (published = true);
+
+drop policy if exists "admins can manage content" on public.site_content;
+create policy "admins can manage content" on public.site_content
+for all to authenticated using (true) with check (true);
+
+drop policy if exists "public can read published gallery" on public.gallery;
+create policy "public can read published gallery" on public.gallery
+for select to anon, authenticated using (published = true);
+
+drop policy if exists "admins can manage gallery" on public.gallery;
+create policy "admins can manage gallery" on public.gallery
+for all to authenticated using (true) with check (true);
+
+insert into public.site_content(key,value,published)
+values
+('about','Praveen Kitkat is a professional magician delivering interactive close-up magic and energetic stage performances. Every show is designed to turn an ordinary event into a memorable experience.',true),
+('hero_image','',true)
+on conflict(key) do nothing;

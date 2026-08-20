@@ -1,0 +1,1 @@
+Put your website photos/videos in this folder. You can also manage gallery URLs from admin.html.
