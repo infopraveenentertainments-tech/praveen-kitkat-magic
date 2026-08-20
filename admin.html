@@ -1,26 +1,35 @@
 <!doctype html>
-<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Praveen Kitkat Admin</title><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<style>*{box-sizing:border-box}body{margin:0;background:#080808;color:#eee;font-family:Arial}main{max-width:1000px;margin:auto;padding:30px 18px}h1,h2{font-family:Georgia,serif}.gold{color:#f6c542}.box{background:#111;border:1px solid #292929;border-radius:18px;padding:24px;margin:18px 0}input,textarea,select{width:100%;padding:14px;margin:8px 0 14px;background:#0b0b0b;color:#eee;border:1px solid #444;border-radius:9px;font-size:16px}button{padding:14px 20px;border:0;border-radius:9px;background:#f6c542;font-weight:bold;font-size:16px}button.secondary{background:transparent;color:#f6c542;border:1px solid #f6c542}.danger{background:#a33;color:#fff}.msg{color:#f6c542}.error{color:#ff7373}.booking{border:1px solid #333;border-radius:12px;padding:16px;margin:12px 0;line-height:1.6}a{color:#f6c542}</style></head>
-<body><main><h1>PRAVEEN <span class="gold">KITKAT</span> — Admin</h1>
-<div id="login" class="box"><h2>Admin Login</h2><input id="email" type="email" placeholder="Admin email"><input id="password" type="password" placeholder="Password"><button id="loginBtn">Login</button> <button id="forgotBtn" class="secondary">Forgot Password?</button><p id="loginMsg" class="msg"></p></div>
-<div id="app" style="display:none"><button id="logout" class="secondary">Logout</button>
+<style>
+body{margin:0;background:#080808;color:#eee;font-family:Arial,sans-serif}main{max-width:1000px;margin:auto;padding:30px 18px}h1,h2{font-family:Georgia,serif}.box{background:#111;border:1px solid #292929;border-radius:16px;padding:22px;margin:18px 0}input,textarea,select{width:100%;padding:13px;margin:7px 0 14px;box-sizing:border-box;background:#0b0b0b;color:#eee;border:1px solid #444;border-radius:8px}button{padding:13px 18px;border:0;border-radius:8px;background:#f6c542;font-weight:bold}.danger{background:#a33;color:white}.msg{color:#f6c542}#app{display:none}
+</style></head><body><main>
+<h1>PRAVEEN <span style="color:#f6c542">KITKAT</span> — Admin</h1>
+<div id="login" class="box"><h2>Admin Login</h2><input id="email" type="email" placeholder="Admin email"><input id="password" type="password" placeholder="Password"><button id="loginBtn">Login</button><p id="loginMsg" class="msg"></p></div>
+<div id="app"><button id="logout">Logout</button>
 <div class="box"><h2>Bookings</h2><div id="bookings">Loading...</div></div>
-<div class="box"><h2>Site Content</h2><textarea id="about" rows="6" placeholder="About text"></textarea><input id="hero_image" placeholder="Hero image URL"><button id="saveContent">Save Content</button><p id="contentMsg" class="msg"></p></div>
+<div class="box"><h2>Site Content</h2><label>About text</label><textarea id="about" rows="5"></textarea><label>Hero image URL</label><input id="hero_image"><button id="saveContent">Save Content</button><p id="contentMsg" class="msg"></p></div>
 <div class="box"><h2>Add Gallery Item</h2><input id="gTitle" placeholder="Title"><input id="gUrl" placeholder="Public image/video URL"><select id="gType"><option value="image">Image</option><option value="video">Video</option></select><button id="addGallery">Add to Gallery</button><p id="galleryMsg" class="msg"></p></div>
 <div class="box"><h2>Gallery</h2><div id="galleryAdmin"></div></div></div></main>
 <script>
-const URL="https://umpdcdzynnqgbzmfwiyw.supabase.co",KEY="sb_publishable_InXm_68VoBtAI4opM5fbmw_0J7Z3Ita",SITE="https://praveen-kitkat-magic.info-praveenkitkat.workers.dev",RESET=SITE+"/reset-password.html";
-const sb=supabase.createClient(URL,KEY),$=id=>document.getElementById(id);
-const esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));
-async function refresh(){const {data:{user}}=await sb.auth.getUser();if(!user){$("login").style.display="block";$("app").style.display="none";return}$("login").style.display="none";$("app").style.display="block";
-const {data:b,error:be}=await sb.from("bookings").select("*").order("created_at",{ascending:false});$("bookings").innerHTML=be?'<p class="error">'+esc(be.message)+'</p>':(b||[]).map(x=>'<div class="booking"><b>'+esc(x.name)+'</b> — '+esc(x.phone)+'<br>'+esc(x.event)+' • '+esc(x.date)+' • '+esc(x.location)+'<br>Guests: '+esc(x.guests)+'<br>'+esc(x.message)+'</div>').join("")||"No bookings yet.";
-const {data:c}=await sb.from("site_content").select("*"),m=Object.fromEntries((c||[]).map(x=>[x.key,x.value]));$("about").value=m.about||"";$("hero_image").value=m.hero_image||"";
-const {data:g}=await sb.from("gallery").select("*").order("sort_order").order("created_at",{ascending:false});$("galleryAdmin").innerHTML=(g||[]).map(x=>'<div class="booking"><b>'+esc(x.title||"Untitled")+'</b> — <a href="'+esc(x.url||"#")+'" target="_blank">Open</a> <button class="danger" onclick="delGallery(''+esc(x.id)+'')">Delete</button></div>').join("")||"No gallery items."}
-$("loginBtn").onclick=async()=>{const {error}=await sb.auth.signInWithPassword({email:$("email").value.trim(),password:$("password").value});$("loginMsg").textContent=error?error.message:"";$("loginMsg").className="msg "+(error?"error":"");if(!error)refresh()};
-$("forgotBtn").onclick=async()=>{const e=$("email").value.trim();if(!e){$("loginMsg").textContent="Enter your email first.";return}const {error}=await sb.auth.resetPasswordForEmail(e,{redirectTo:RESET});$("loginMsg").textContent=error?error.message:"Reset email sent. Check your Gmail.";$("loginMsg").className="msg "+(error?"error":"")};
-$("logout").onclick=async()=>{await sb.auth.signOut();refresh()};
-$("saveContent").onclick=async()=>{for(const r of [{key:"about",value:$("about").value,published:true},{key:"hero_image",value:$("hero_image").value,published:true}]){const {error}=await sb.from("site_content").upsert(r,{onConflict:"key"});if(error){$("contentMsg").textContent=error.message;return}}$("contentMsg").textContent="Saved successfully."};
-$("addGallery").onclick=async()=>{const {error}=await sb.from("gallery").insert({title:$("gTitle").value,url:$("gUrl").value,media_type:$("gType").value,published:true});$("galleryMsg").textContent=error?error.message:"Added successfully.";if(!error)refresh()};
-async function delGallery(id){if(confirm("Delete this gallery item?")){await sb.from("gallery").delete().eq("id",id);refresh()}}refresh();
+document.addEventListener('DOMContentLoaded',()=>{
+const sb=supabase.createClient('https://umpdcdzynnqgbzmfwiyw.supabase.co','sb_publishable_InXm_68VoBtAI4opM5fbmw_0J7Z3Ita');
+const $=id=>document.getElementById(id);
+async function refresh(){
+ const {data:{user}}=await sb.auth.getUser();
+ if(!user){$('login').style.display='block';$('app').style.display='none';return}
+ $('login').style.display='none';$('app').style.display='block';
+ const {data:b,error:be}=await sb.from('bookings').select('*').order('created_at',{ascending:false});
+ $('bookings').innerHTML=be?`<p class="msg">${be.message}</p>`:(b||[]).map(x=>`<div class="box"><b>${x.name||''}</b> — ${x.phone||''}<br>${x.event||''} • ${x.date||''} • ${x.location||''}<br>Guests: ${x.guests||''}<br>${x.message||''}</div>`).join('')||'No bookings yet.';
+ const {data:c}=await sb.from('site_content').select('*'); const map=Object.fromEntries((c||[]).map(x=>[x.key,x.value])); $('about').value=map.about||''; $('hero_image').value=map.hero_image||'';
+ const {data:g}=await sb.from('gallery').select('*').order('sort_order').order('created_at',{ascending:false});
+ $('galleryAdmin').innerHTML=(g||[]).map(x=>`<p>${x.title||'Untitled'} — <button class="danger" onclick="delGallery('${x.id}')">Delete</button></p>`).join('')||'No gallery items.';
+}
+$('loginBtn').onclick=async()=>{const {error}=await sb.auth.signInWithPassword({email:$('email').value.trim(),password:$('password').value});$('loginMsg').textContent=error?error.message:'';if(!error)refresh()};
+$('logout').onclick=async()=>{await sb.auth.signOut();refresh()};
+$('saveContent').onclick=async()=>{for(const r of [{key:'about',value:$('about').value,published:true},{key:'hero_image',value:$('hero_image').value,published:true}]){const {error}=await sb.from('site_content').upsert(r,{onConflict:'key'});if(error){$('contentMsg').textContent=error.message;return}}$('contentMsg').textContent='Saved.'};
+$('addGallery').onclick=async()=>{const {error}=await sb.from('gallery').insert({title:$('gTitle').value,url:$('gUrl').value,media_type:$('gType').value,published:true});$('galleryMsg').textContent=error?error.message:'Added.';if(!error){$('gTitle').value='';$('gUrl').value='';refresh()}};
+window.delGallery=async id=>{await sb.from('gallery').delete().eq('id',id);refresh()};
+refresh();
+});
 </script></body></html>

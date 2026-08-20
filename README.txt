@@ -1,20 +1,19 @@
-PRAVEEN KITKAT DYNAMIC WEBSITE — BOOK BUTTON FIX V4
+PRAVEEN KITKAT DYNAMIC WEBSITE
 
-This version keeps Supabase dynamic functionality.
-
-The two booking CTAs are now real buttons with an independent click handler:
-- Book a Show
-- Book a Magic Show
-
-They do NOT depend on Supabase JavaScript or normal anchor navigation.
-A tap scrolls directly to the booking section and updates the URL hash to #book.
-
-Deploy:
-Build command: None
-Deploy command: npx wrangler deploy
-Root directory: /
+Files:
+- public/index.html  = public website
+- public/admin.html  = Supabase admin dashboard
+- wrangler.jsonc     = Cloudflare Workers Static Assets configuration
 
 IMPORTANT:
-Replace the previous public/index.html with this version and redeploy.
-After deployment, open the live URL in a private/incognito tab or clear the
-site cache before testing, so the old JavaScript is not being served.
+1. Upload the CONTENTS of this folder to the root of your GitHub repository (public folder included).
+2. In Cloudflare Workers Builds, keep Root directory as /.
+3. Build command: None
+4. Deploy command: npx wrangler deploy
+5. Redeploy.
+
+The website uses the Supabase URL and publishable key already supplied for this project.
+Do not put a Supabase service_role/secret key into HTML.
+
+Admin URL after deployment:
+https://YOUR-WORKERS-DOMAIN/admin.html
