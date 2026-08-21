@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Praveen Kitkat | Professional Magician</title>
+<meta name="description" content="Praveen Kitkat — professional magician and live entertainment for weddings, birthdays, corporate events and celebrations.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root{--bg:#070707;--card:#11100f;--gold:#f6c542;--cream:#f7f2e8;--muted:#aaa69d;--line:#2a2927}
+*{box-sizing:border-box} html{scroll-behavior:smooth} body{margin:0;background:var(--bg);color:var(--cream);font-family:"DM Sans",sans-serif} a{color:inherit;text-decoration:none}
+nav{position:sticky;top:0;z-index:10;background:rgba(7,7,7,.92);backdrop-filter:blur(14px);border-bottom:1px solid var(--line);padding:20px 5vw;display:flex;align-items:center;justify-content:space-between}
+.logo{font:700 28px "Playfair Display";letter-spacing:.5px} .logo span{color:var(--gold)} .navlinks{display:flex;gap:26px;color:#bbb;font-size:14px} .navbtn,.btn{border:1px solid var(--gold);padding:13px 22px;border-radius:999px;color:var(--gold);font-weight:700}
+.hero{min-height:88vh;display:grid;grid-template-columns:1.05fr .95fr;align-items:center;padding:70px 5vw;position:relative;overflow:hidden}
+.hero:before{content:"";position:absolute;width:600px;height:600px;right:-250px;bottom:-280px;background:radial-gradient(circle,rgba(246,197,66,.16),transparent 65%)} 
+.eyebrow{color:var(--gold);letter-spacing:5px;font-weight:700;font-size:13px} h1{font:600 clamp(60px,8vw,118px)/.9 "Playfair Display";margin:24px 0} h1 em{color:var(--gold);font-style:normal} .hero p{font-size:20px;line-height:1.75;color:#b8b4aa;max-width:680px} .buttons{display:flex;gap:14px;margin-top:34px;flex-wrap:wrap} .primary{background:var(--gold);color:#111;border:0;padding:17px 28px;border-radius:999px;font-weight:800;font-size:16px} .secondary{border:1px solid #555;padding:17px 28px;border-radius:999px}
+.heroimg{height:650px;border-radius:24px;background:linear-gradient(135deg,#1a1917,#0b0b0b);border:1px solid #292824;display:flex;align-items:center;justify-content:center;overflow:hidden} .heroimg img{width:100%;height:100%;object-fit:cover} .placeholder{font:600 28px "Playfair Display";color:#777}
+section{padding:90px 5vw;max-width:1300px;margin:auto} #book{scroll-margin-top:100px} .sectiontag{color:var(--gold);letter-spacing:4px;font-size:12px;font-weight:700} h2{font:600 clamp(42px,6vw,76px)/1 "Playfair Display";margin:15px 0 35px} .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px} .card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:28px} .card h3{font:700 23px "Playfair Display"} .card p{color:#aaa;line-height:1.7} .gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:14px} .gallery img,.gallery video{width:100%;height:300px;object-fit:cover;border-radius:16px;border:1px solid var(--line)} 
+.booking{background:linear-gradient(135deg,#11100e,#0b0b0a);border:1px solid #302e28;border-radius:28px;padding:45px} form{display:grid;grid-template-columns:1fr 1fr;gap:16px} input,select,textarea{width:100%;background:#0c0c0c;color:#eee;border:1px solid #393733;border-radius:12px;padding:17px;font:inherit} textarea{min-height:140px;resize:vertical} .full{grid-column:1/-1} .status{margin-top:12px;min-height:25px;color:var(--gold)} footer{border-top:1px solid var(--line);padding:40px 5vw;color:#888;display:flex;justify-content:space-between;gap:20px}
+@media(max-width:800px){.navlinks{display:none}.hero{grid-template-columns:1fr;padding-top:55px}.heroimg{height:430px;order:-1}.grid,.gallery{grid-template-columns:1fr} form{grid-template-columns:1fr} .full{grid-column:auto} h1{font-size:68px}}
+</style>
+</head>
+<body>
+<nav><a class="logo" href="#">PRAVEEN <span>KITKAT</span></a><div class="navlinks"><a href="#shows">Shows</a><a href="#gallery">Gallery</a><a href="#about">About</a><a href="#book">Book</a></div><a class="navbtn" href="#book" onclick="document.getElementById('book').scrollIntoView({behavior:'smooth',block:'start'}); return false;">Book a Show</a></nav>
+<main>
+<section class="hero" id="home">
+<div><div class="eyebrow">PROFESSIONAL MAGICIAN • LIVE ENTERTAINMENT</div><h1>MAKE THEM<br><em>WONDER.</em></h1><p>High-energy magic, audience interaction and unforgettable moments for weddings, birthdays, corporate events and celebrations.</p><div class="buttons"><a class="primary" href="#book" onclick="document.getElementById('book').scrollIntoView({behavior:'smooth',block:'start'}); return false;">Book a Magic Show</a><a class="secondary" href="#gallery">Watch the Magic ↓</a></div></div>
+<div class="heroimg"><img id="heroImage" alt="Praveen Kitkat performing magic" hidden><div id="heroPlaceholder" class="placeholder">LIVE MAGIC</div></div>
+</section>
+<section id="shows"><div class="sectiontag">WHAT I DO</div><h2>MAGIC FOR <em>EVERY</em> OCCASION</h2><div class="grid">
+<div class="card"><h3>Weddings</h3><p>Walk-around magic and interactive entertainment that keeps guests talking and smiling.</p></div>
+<div class="card"><h3>Corporate Events</h3><p>Professional close-up and stage entertainment designed for audiences of all sizes.</p></div>
+<div class="card"><h3>Birthdays & Family</h3><p>Fun, interactive magic for children, families and celebrations.</p></div>
+</div></section>
+<section id="gallery"><div class="sectiontag">FROM THE STAGE</div><h2>REAL EVENTS. <em>REAL REACTIONS.</em></h2><div id="galleryGrid" class="gallery"></div></section>
+<section id="about"><div class="sectiontag">ABOUT PRAVEEN</div><h2>MAGIC THAT FEELS <em>IMPOSSIBLE.</em></h2><div class="card"><p id="aboutText">Praveen Kitkat is a professional magician delivering interactive close-up magic and energetic stage performances. Every show is designed to turn an ordinary event into a memorable experience.</p></div></section>
+<section id="book"><div class="booking"><div class="sectiontag">READY TO AMAZE YOUR GUESTS?</div><h2>LET'S MAKE <em>MAGIC.</em></h2><p style="color:#aaa">Tell me about your event and I'll get in touch with you.</p>
+<form id="bookingForm">
+<input name="name" required placeholder="Your Name"><input name="phone" required placeholder="Phone / WhatsApp Number">
+<select name="event" required><option value="">Event Type</option><option>Wedding</option><option>Birthday</option><option>Corporate Event</option><option>Family Event</option><option>College / School Event</option><option>Other</option></select>
+<input name="date" type="date" required>
+<input name="location" required placeholder="Event Location"><input name="guests" placeholder="Approx. Number of Guests">
+<textarea class="full" name="message" placeholder="Tell us about your event"></textarea>
+<button class="primary full" id="submitBtn" type="submit">Send Booking Enquiry</button><div class="status full" id="formStatus"></div>
+</form></div></section>
+</main>
+<footer><div>© <span id="year"></span> Praveen Kitkat</div><div>Professional Magician • Live Entertainment</div></footer>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+const SUPABASE_URL = "https://umpdcdzynnqgbzmfwiyw.supabase.co";
+const SUPABASE_KEY = "sb_publishable_InXm_68VoBtAI4opM5fbmw_0J7Z3Ita";
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+document.getElementById("year").textContent = new Date().getFullYear();
+
+async function loadSite() {
+  const {data: content} = await sb.from("site_content").select("key,value").eq("published",true);
+  if (content) {
+    const map = Object.fromEntries(content.map(x=>[x.key,x.value]));
+    if(map.about) document.getElementById("aboutText").textContent = map.about;
+    if(map.hero_image) {
+      const img=document.getElementById("heroImage"); img.src=map.hero_image; img.hidden=false; document.getElementById("heroPlaceholder").hidden=true;
+    }
+  }
+  const {data: gallery} = await sb.from("gallery").select("*").eq("published",true).order("sort_order").order("created_at",{ascending:false});
+  const g=document.getElementById("galleryGrid"); g.innerHTML="";
+  (gallery||[]).forEach(item=>{
+    const el=document.createElement(item.media_type==="video"?"video":"img");
+    el.src=item.url; el.alt=item.title||"Praveen Kitkat magic"; if(item.media_type==="video"){el.controls=true;el.playsInline=true}
+    g.appendChild(el);
+  });
+  if(!gallery?.length) g.innerHTML='<div class="card"><h3>Gallery coming soon</h3><p>Photos and videos will appear here automatically from the admin dashboard.</p></div>';
+}
+loadSite();
+});
+
+document.getElementById("bookingForm").addEventListener("submit", async (e)=>{
+  e.preventDefault();
+  const form=e.currentTarget, btn=document.getElementById("submitBtn"), status=document.getElementById("formStatus");
+  btn.disabled=true; btn.textContent="Sending..."; status.textContent="";
+  const data=Object.fromEntries(new FormData(form).entries());
+  try {
+    const {error}=await sb.from("bookings").insert([data]);
+    if(error) throw error;
+    status.textContent="✓ Booking enquiry sent successfully. I'll get in touch with you.";
+    form.reset();
+  } catch(error) {
+    console.error(error);
+    status.textContent="Unable to send right now. Please use WhatsApp.";
+  } finally {
+    btn.disabled=false;
+    btn.textContent="Send Booking Enquiry";
+  }
+});
+});
+</script>
+</body></html>
